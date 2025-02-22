@@ -3,93 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo da Tabuada</title>
+    <title>Jogo de Tabuada</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Estilos gerais */
         body {
-            font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            color: #fff;
-            overflow: hidden;
         }
         .container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 30px;
+            padding: 15px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             max-width: 500px;
             width: 90%;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin: 20px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         .question {
             font-size: 2rem;
-            margin-bottom: 30px;
             font-weight: bold;
+            margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
-        .options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
         .option {
-            padding: 15px;
-            font-size: 1.2rem;
             background: rgba(255, 255, 255, 0.2);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
             color: #fff;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2rem;
         }
         .option:hover {
             background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        .start-btn {
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            background: #28a745;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-        }
-        .start-btn:hover {
-            background: #218838;
             transform: scale(1.05);
         }
         .trophy {
             font-size: 2rem;
             margin-top: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         .ranking {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             margin-top: 10px;
-            color: #fff;
-            padding: 10px 20px;
+            padding: 10px 10px;
             border-radius: 10px;
             display: inline-block;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         .feedback {
@@ -97,12 +64,6 @@
             margin-top: 20px;
             animation: fadeOut 2s ease-in-out;
             opacity: 0;
-        }
-        .ranking-info {
-            font-size: 1rem;
-            margin-top: 10px;
-            color: rgba(255, 255, 255, 0.8);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
         @keyframes fadeOut {
             0% { opacity: 1; }
@@ -136,69 +97,27 @@
             0% { transform: translateY(-100vh) rotate(0deg); }
             100% { transform: translateY(100vh) rotate(720deg); }
         }
-
-        /* Responsividade para dispositivos móveis */
-        @media (max-width: 600px) {
-            .container {
-                width: 100%;
-                height: 100vh;
-                border-radius: 0;
-                margin: 0;
-                padding: 20px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-            h1 {
-                font-size: 2rem;
-            }
-            .question {
-                font-size: 1.5rem;
-            }
-            .options {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-                width: 100%;
-            }
-            .option {
-                font-size: 1rem;
-                padding: 10px;
-            }
-            .start-btn {
-                font-size: 1rem;
-                padding: 10px 20px;
-                width: 100%;
-            }
-            .ranking {
-                font-size: 1.2rem;
-                padding: 8px 16px;
-            }
-            .trophy {
-                font-size: 1.5rem;
-            }
-            .feedback {
-                font-size: 1.2rem;
-            }
-            .ranking-info {
-                font-size: 0.9rem;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Jogo da Tabuada</h1>
+    <div class="container text-center">
+        <h1 class="mb-4">Jogo de Tabuada</h1>
         <div class="question" id="question"></div>
-        <div class="options" id="options"></div>
-        <button class="start-btn" id="start-btn">Iniciar</button>
+        <div class="row g-3 mb-4" id="options">
+            <!-- Opções de resposta serão inseridas aqui -->
+        </div>
+        <button class="btn btn-success btn-lg w-100 mb-3" id="start-btn">Iniciar</button>
         <div class="trophy" id="trophy">🏆: 0</div>
         <div class="ranking" id="ranking">Patente: Iniciante da Tabuada</div>
-        <div class="ranking-info">
+        <div class="ranking-info text-white mt-2">
             Regra: A cada 5 acertos, você sobe de patente. Ao errar 2 vezes seguidas, você perde uma patente.
         </div>
         <div class="feedback" id="feedback"></div>
     </div>
+
+    <!-- Bootstrap JS e dependências -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
     <script>
         let trophies = 0;
@@ -232,11 +151,14 @@
             optionsContainer.innerHTML = '';
 
             options.forEach(option => {
+                const col = document.createElement('div');
+                col.className = 'col-6';
                 const button = document.createElement('div');
-                button.classList.add('option');
+                button.className = 'option';
                 button.textContent = option;
                 button.addEventListener('click', () => checkAnswer(option));
-                optionsContainer.appendChild(button);
+                col.appendChild(button);
+                optionsContainer.appendChild(col);
             });
         }
 
