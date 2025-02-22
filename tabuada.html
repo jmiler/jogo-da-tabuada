@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Tabuada</title>
+    <style>
+        /* Estilos gerais */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+            overflow: hidden;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .question {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .option {
+            padding: 15px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .option:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .start-btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .start-btn:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+        .trophy {
+            font-size: 2rem;
+            margin-top: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .ranking {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .feedback {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            animation: fadeOut 2s ease-in-out;
+            opacity: 0;
+        }
+        .ranking-info {
+            font-size: 1rem;
+            margin-top: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+        .shake {
+            animation: shake 0.5s;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+        .bounce {
+            animation: bounce 0.8s;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff0;
+            border-radius: 50%;
+            animation: confetti-fall 2s linear infinite;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(720deg); }
+        }
+
+        /* Responsividade para dispositivos móveis */
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                margin: 0;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .question {
+                font-size: 1.5rem;
+            }
+            .options {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                width: 100%;
+            }
+            .option {
+                font-size: 1rem;
+                padding: 10px;
+            }
+            .start-btn {
+                font-size: 1rem;
+                padding: 10px 20px;
+                width: 100%;
+            }
+            .ranking {
+                font-size: 1.2rem;
+                padding: 8px 16px;
+            }
+            .trophy {
+                font-size: 1.5rem;
+            }
+            .feedback {
+                font-size: 1.2rem;
+            }
+            .ranking-info {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Jogo da Tabuada</h1>
+        <div class="question" id="question"></div>
+        <div class="options" id="options"></div>
+        <button class="start-btn" id="start-btn">Iniciar</button>
+        <div class="trophy" id="trophy">🏆: 0</div>
+        <div class="ranking" id="ranking">Patente: Iniciante da Tabuada</div>
+        <div class="ranking-info">
+            Regra: A cada 5 acertos, você sobe de patente. Ao errar 2 vezes seguidas, você perde uma patente.
+        </div>
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <script>
+        let trophies = 0;
+        let rankingLevel = 0;
+        let correctAnswer;
+        let rankingPoints = 0; // Pontos para subir de patente
+        let consecutiveErrors = 0; // Contador de erros consecutivos
+
+        const rankingTitles = [
+            { title: "Iniciante da Tabuada", color: "#ff6b6b" }, // Vermelho
+            { title: "Aprendiz das Contas", color: "#ff9f43" }, // Laranja
+            { title: "Calculista em Treinamento", color: "#feca57" }, // Amarelo
+            { title: "Mestre das Multiplicações", color: "#1dd1a1" }, // Verde
+            { title: "Especialista em Números", color: "#54a0ff" }, // Azul
+            { title: "Gênio da Matemática", color: "#5f27cd" }, // Roxo
+            { title: "Lenda das Tabuadas", color: "#ff9ff3" }, // Rosa
+            { title: "Grão Mestre da Matemática", color: "#00d2d3" } // Turquesa
+        ];
+
+        document.getElementById('start-btn').addEventListener('click', startGame);
+
+        function startGame() {
+            const num1 = Math.floor(Math.random() * 9) + 1;
+            const num2 = Math.floor(Math.random() * 9) + 1;
+            correctAnswer = num1 * num2;
+
+            document.getElementById('question').textContent = `${num1} x ${num2} = ?`;
+
+            const options = generateOptions(correctAnswer);
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+
+            options.forEach(option => {
+                const button = document.createElement('div');
+                button.classList.add('option');
+                button.textContent = option;
+                button.addEventListener('click', () => checkAnswer(option));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function generateOptions(correctAnswer) {
+            const options = new Set();
+            options.add(correctAnswer);
+
+            while (options.size < 4) {
+                const randomOption = Math.floor(Math.random() * 81) + 1;
+                options.add(randomOption);
+            }
+
+            return shuffleArray([...options]);
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function checkAnswer(selectedAnswer) {
+            const feedback = document.getElementById('feedback');
+            if (selectedAnswer == correctAnswer) {
+                trophies++;
+                rankingPoints++;
+                consecutiveErrors = 0; // Reseta o contador de erros consecutivos
+                document.getElementById('trophy').textContent = `🏆: ${trophies}`;
+                document.getElementById('trophy').classList.add('bounce');
+                setTimeout(() => {
+                    document.getElementById('trophy').classList.remove('bounce');
+                }, 1000);
+
+                if (rankingPoints >= 5 && rankingLevel < rankingTitles.length - 1) {
+                    rankingLevel++;
+                    rankingPoints = 0; // Reseta os pontos ao subir de patente
+                    updateRanking();
+                }
+
+                feedback.textContent = "Acertou! 🎉";
+                feedback.style.color = "#4caf50";
+                createConfetti();
+            } else {
+                trophies = Math.max(0, trophies - 1);
+                consecutiveErrors++; // Incrementa o contador de erros consecutivos
+                if (consecutiveErrors >= 2 && rankingLevel > 0) {
+                    rankingLevel--;
+                    consecutiveErrors = 0; // Reseta o contador de erros consecutivos
+                    updateRanking();
+                }
+
+                document.getElementById('trophy').textContent = `🏆: ${trophies}`;
+                feedback.textContent = "Errou! 😢";
+                feedback.style.color = "#f44336";
+                document.getElementById('question').classList.add('shake');
+                setTimeout(() => {
+                    document.getElementById('question').classList.remove('shake');
+                }, 500);
+            }
+            feedback.style.opacity = 1;
+            setTimeout(() => {
+                feedback.style.opacity = 0;
+            }, 2000);
+            startGame();
+        }
+
+        function updateRanking() {
+            const rankingElement = document.getElementById('ranking');
+            rankingElement.textContent = `Patente: ${rankingTitles[rankingLevel].title}`;
+            rankingElement.style.backgroundColor = rankingTitles[rankingLevel].color;
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.animationDelay = `${Math.random() * 2}s`;
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                document.body.appendChild(confetti);
+                setTimeout(() => {
+                    confetti.remove();
+                }, 2000);
+            }
+        }
+
+        // Inicializa o ranking com a primeira cor
+        updateRanking();
+    </script>
+</body>
+</html>
